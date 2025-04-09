@@ -65,10 +65,10 @@ public class timSort {
         Scanner sc = new Scanner(System.in);
         int arr_size = sc.nextInt();
         int[] arr = new int[arr_size];
-
         for (int i = 0; i < arr_size; i++) {
             arr[i] = sc.nextInt();
         }
+        sc.close();
 
         TimSort(arr);
 
@@ -79,5 +79,6 @@ public class timSort {
             }
         }
         System.out.println();
+        
     }
 }
