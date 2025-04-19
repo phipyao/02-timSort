@@ -159,28 +159,31 @@ def query_points_within_radius(points, query_r):
             high = mid
     return points[:low]
 
-# main:
-# arr_size = int(input())
-# arr = [int(input()) for i in range(arr_size)]
-# timsort(arr)
-# print(*arr)
-
-# TODO: calculate radius for every point and append index (x, y) -> (x, y, r, i)
-# TODO: make a hashmap with a key of points "(x, y, r, i)" and value of "boatname"
-# TODO: timsort points by radius r, i
-# TODO: query subarray of points by binary searching all points under given radius
-# TODO: timsort subarray by polar angle -> sorted_points
-# TODO: get values from hashmap of sorted_points and print boat names
-
-print("ehlo world")
+# calculate radius for every point and append index (x, y) -> (x, y, r, i)
+# and make a hashmap with a key of points "(x, y, r, i)" and value of "boatname"
 num_ships, num_queries = list(map(int, input().split()))
-
 ships = {}
+ships_sorted_by_r = []
+
 for i in range(num_ships):
     x, y, ship_name = input().split()
-
     x, y = int(x), int(y)
     r = math.sqrt(x**2 + y**2)
-    ships[(x, y, r, i)] = ship_name
-    print((x, y, r, i), ship_name)
+    point = (x, y, r, i)
+    ships[point] = ship_name
+    ships_sorted_by_r.append(point)
 
+# timsort points by radius r, i
+timsort(ships_sorted_by_r, key=cmp_to_key(radius_comparator))
+
+for q in range(num_queries):
+    # query subarray of points by binary searching all points under given radius
+    radius = float(input())
+    ships_queried = query_points_within_radius(ships_sorted_by_r, radius)
+
+    # timsort subarray by polar angle -> sorted_points
+    timsort(ships_queried, cmp_to_key(polar_angle_comparator))
+
+    # get values from hashmap of sorted_points and print boat names
+    res = [ships[point] for point in ships_queried]
+    print(*res if res else [-1])
