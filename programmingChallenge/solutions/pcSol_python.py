@@ -1,4 +1,5 @@
 from functools import cmp_to_key
+import math
 
 def calculate_min_run(n):
     r = 0
@@ -170,3 +171,16 @@ def query_points_within_radius(points, query_r):
 # TODO: query subarray of points by binary searching all points under given radius
 # TODO: timsort subarray by polar angle -> sorted_points
 # TODO: get values from hashmap of sorted_points and print boat names
+
+print("ehlo world")
+num_ships, num_queries = list(map(int, input().split()))
+
+ships = {}
+for i in range(num_ships):
+    x, y, ship_name = input().split()
+
+    x, y = int(x), int(y)
+    r = math.sqrt(x**2 + y**2)
+    ships[(x, y, r, i)] = ship_name
+    print((x, y, r, i), ship_name)
+
