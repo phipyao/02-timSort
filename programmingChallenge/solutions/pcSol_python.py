@@ -31,6 +31,20 @@ def insertion_sort(arr, left, right, key):
             j -= 1
         arr[j + 1] = temp
 
+def gallop(x, arr, start, key):
+    hi = 1
+    n = len(arr)
+    while start + hi < n and key(x) > key(arr[start + hi]):
+        hi *= 2
+    lo = hi // 2
+    hi = min(start + hi, n)
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if key(x) > key(arr[mid]):
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo
 
 def merge(arr, left, mid, right, key):
     left_part = arr[left:mid + 1]
@@ -38,14 +52,37 @@ def merge(arr, left, mid, right, key):
 
     i = j = 0
     k = left
+    min_gallop = 7
+    count_left = count_right = 0
+
     while i < len(left_part) and j < len(right_part):
         if key(left_part[i]) <= key(right_part[j]):
             arr[k] = left_part[i]
             i += 1
+            count_left += 1
+            count_right = 0
         else:
             arr[k] = right_part[j]
             j += 1
+            count_right += 1
+            count_left = 0
         k += 1
+
+        if count_left >= min_gallop:
+            pos = gallop(right_part[j], left_part, i, key)
+            while i < pos:
+                arr[k] = left_part[i]
+                i += 1
+                k += 1
+            count_left = 0
+
+        elif count_right >= min_gallop:
+            pos = gallop(left_part[i], right_part, j, key)
+            while j < pos:
+                arr[k] = right_part[j]
+                j += 1
+                k += 1
+            count_right = 0
 
     while i < len(left_part):
         arr[k] = left_part[i]
@@ -56,7 +93,6 @@ def merge(arr, left, mid, right, key):
         arr[k] = right_part[j]
         j += 1
         k += 1
-
 
 def timsort(arr, key=lambda x: x):
     n = len(arr)
@@ -69,12 +105,10 @@ def timsort(arr, key=lambda x: x):
         insertion_sort(arr, i, run_end, key)
         run_stack.append((i, run_end))
         i = run_end + 1
-
         merge_collapse(arr, run_stack, key)
 
     while len(run_stack) > 1:
         merge_at(arr, run_stack, len(run_stack) - 2, key)
-
 
 def merge_collapse(arr, run_stack, key):
     while len(run_stack) > 2:
@@ -96,14 +130,13 @@ def merge_collapse(arr, run_stack, key):
     if len(run_stack) == 2 and (run_stack[-2][1] - run_stack[-2][0] + 1) <= (run_stack[-1][1] - run_stack[-1][0] + 1):
         merge_at(arr, run_stack, len(run_stack) - 2, key)
 
-
 def merge_at(arr, run_stack, i, key):
     start1, end1 = run_stack[i]
     start2, end2 = run_stack[i + 1]
-
     merge(arr, start1, end1, end2, key)
     run_stack[i] = (start1, end2)
     del run_stack[i + 1]
+
 
 def polar_angle_comparator(a, b):
     ax, ay, ra, ia = a
