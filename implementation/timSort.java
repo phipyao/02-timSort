@@ -1,4 +1,4 @@
-package implementations;
+package implementation;
 
 import java.util.Arrays;
 import java.util.Scanner;
