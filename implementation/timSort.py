@@ -54,44 +54,51 @@ def gallop(x, arr, start):
 #  combine two sorted subarrays [left,mid] and [mid+1,right]
 #  track consecutive wins to trigger galloping mode to reduce the number of individual comparisons
 def merge(arr, left, mid, right):
+    # copy runs so we can merge in place
     left_part = arr[left:mid + 1]
     right_part = arr[mid + 1:right + 1]
 
     i = j = 0
     k = left
-    min_gallop = 7
+    min_gallop = 7 # threshold to switch to galloping mode
     count_left = count_right = 0
 
+    # core merge logic
     while i < len(left_part) and j < len(right_part):
         if left_part[i] <= right_part[j]:
             arr[k] = left_part[i]
             i += 1
-            count_left += 1
+            count_left += 1     # keeping track of left subarray "wins"
             count_right = 0
         else:
             arr[k] = right_part[j]
             j += 1
-            count_right += 1
+            count_right += 1    # keeping track of right subarray "wins"
             count_left = 0
         k += 1
-        # if one side wins individual comparisons repeatedly
-        # trigger galloping mode to find the location in the array where x goes
+
+        # one side wins individual comparisons more than min_gallop times
+        # if left run is smaller call gallop to find the index of the right one where x fits
         if count_left >= min_gallop:
             pos = gallop(right_part[j], left_part, i)
+            #  copy the part of array that was skipped over
             while i < pos:
                 arr[k] = left_part[i]
                 i += 1
                 k += 1
-            count_left = 0
-
+            count_left = 0  # reset the counter
+        
+        # if right run is smaller call gallop to find the index of the left one where x fits
         elif count_right >= min_gallop:
             pos = gallop(left_part[i], right_part, j)
+            #  copy the part of array that was skipped over
             while j < pos:
                 arr[k] = right_part[j]
                 j += 1
                 k += 1
-            count_right = 0
+            count_right = 0 # reset the counter 
 
+    # copy over any leftover elements, only 1 will run, the other is already done
     while i < len(left_part):
         arr[k] = left_part[i]
         i += 1
@@ -103,23 +110,29 @@ def merge(arr, left, mid, right):
         k += 1
 
 def timsort(arr):
+    # define vars
     n = len(arr)
     min_run = calculate_min_run(n)
     run_stack = []
 
+    # first pass: split into runs and call insertionsort
     i = 0
     while i < n:
+        # end of current run is either i + minRun (offset) or the end of the list
         run_end = min(i + min_run - 1, n - 1)
         insertion_sort(arr, i, run_end)
-        run_stack.append((i, run_end))
-        i = run_end + 1
+        run_stack.append((i, run_end))  # push run to stack
+        i = run_end + 1     # update offsest
         merge_collapse(arr, run_stack)
-
+    # merge runs according to merge policy until there is 1 run on the stack
     while len(run_stack) > 1:
         merge_at(arr, run_stack, len(run_stack) - 2)
 
+# enforces timsort's merge policy
 def merge_collapse(arr, run_stack):
     while len(run_stack) > 2:
+        # get the length of the first three runs on the stack
+        # C is at the top of the stack, A is closest to the bottom.
         A = run_stack[-3]
         B = run_stack[-2]
         C = run_stack[-1]
@@ -127,21 +140,29 @@ def merge_collapse(arr, run_stack):
         lenB = B[1] - B[0] + 1
         lenC = C[1] - C[0] + 1
 
+        # per merge policy: 
+        # A should be larger than B + C
+        # B should be larger than C
         if lenA <= lenB + lenC or lenB <= lenC:
             if lenA < lenC:
                 merge_at(arr, run_stack, len(run_stack) - 3)
             else:
                 merge_at(arr, run_stack, len(run_stack) - 2)
         else:
+            # merge policy holds, no merges necessary
             break
 
+    # merge when there are 2 runs left on the stack
     if len(run_stack) == 2 and (run_stack[-2][1] - run_stack[-2][0] + 1) <= (run_stack[-1][1] - run_stack[-1][0] + 1):
         merge_at(arr, run_stack, len(run_stack) - 2)
 
+# merge runs at a location on the stack
 def merge_at(arr, run_stack, i):
+    # copy subsections
     start1, end1 = run_stack[i]
     start2, end2 = run_stack[i + 1]
     merge(arr, start1, end1, end2)
+    # update stack
     run_stack[i] = (start1, end2)
     del run_stack[i + 1]
 
