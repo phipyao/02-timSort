@@ -45,7 +45,7 @@ Go [back to home page](../../index.html)
 		- Case 2: edge case - every ship along y = x
         - [Case 2 input](./programmingChallenge/io/test.in.2)
 		- [Case 2 output](./programmingChallenge/io/test.out.2)
-		- Case 3: edge case - every ship along a fixed radius 
+		- Case 3: edge case - every ship along fixed radius
         - [Case 3 input](./programmingChallenge/io/test.in.3)
 		- [Case 3 output](./programmingChallenge/io/test.out.3)
 		- Case 4: edge case - duplicate ship coordinates
