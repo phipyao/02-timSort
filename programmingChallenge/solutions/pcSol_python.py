@@ -167,31 +167,6 @@ def polar_angle_comparator(a, b):
 
     return 0
 
-def radius_comparator(a, b):
-    ax, ay, ra, ia = a
-    bx, by, rb, ib = b
-
-    # Sort by radius
-    if ra != rb:
-        return -1 if ra < rb else 1
-
-    # Sort by order of appearance (i)
-    if ia != ib:
-        return -1 if ia < ib else 1
-
-    return 0
-
-def query_points_within_radius(points, query_r):
-    # Binary Search
-    low, high = 0, len(points)
-    while low < high:
-        mid = (low + high) // 2
-        if points[mid][2] <= query_r:
-            low = mid + 1
-        else:
-            high = mid
-    return points[:low]
-
 # calculate radius for every point and append index (x, y) -> (x, y, r, i)
 # and make a hashmap with a key of points "(x, y, r, i)" and value of "boatname"
 num_ships, num_queries = list(map(int, input().split()))
@@ -206,17 +181,11 @@ for i in range(num_ships):
     ships[point] = ship_name
     ships_sorted_by_r.append(point)
 
-# timsort points by radius r, i
-timsort(ships_sorted_by_r, key=cmp_to_key(radius_comparator))
+# timsort points by polar angle, radius, and index
+timsort(ships_sorted_by_r, key=cmp_to_key(polar_angle_comparator))
 
 for q in range(num_queries):
-    # query subarray of points by binary searching all points under given radius
+    # query ships under given radius
     radius = float(input())
-    ships_queried = query_points_within_radius(ships_sorted_by_r, radius)
-
-    # timsort subarray by polar angle -> sorted_points
-    timsort(ships_queried, cmp_to_key(polar_angle_comparator))
-
-    # get values from hashmap of sorted_points and print boat names
-    res = [ships[point] for point in ships_queried]
-    print(*res if res else [-1])
+    ships_queried = [ships[point] for point in ships_sorted_by_r if point[2] <= radius]
+    print(*ships_queried if ships_queried else [-1])
