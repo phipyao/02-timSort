@@ -34,7 +34,7 @@
 import random
 
 # Define the file path
-filename = f"implementation/io/test.in.{3}"
+filename = f"programmingChallenge/io/test.in.{4}"
 
 # Write to the file
 with open(filename, "w") as f:

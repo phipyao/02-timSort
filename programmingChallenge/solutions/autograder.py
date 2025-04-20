@@ -8,8 +8,9 @@ def run_command(command):
 
 def main():
     # Define the file paths
-    input_file = "../io/test.in.1"
-    expected_output = "../io/test.out.1"
+    file_num = int(input("which test case do you want to check: "))
+    input_file = f"../io/test.in.{file_num}"
+    expected_output = f"../io/test.out.{file_num}"
     
     # Command 1: C++ (g++)
     print("Running C++ code...")
