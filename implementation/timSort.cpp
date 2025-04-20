@@ -82,40 +82,47 @@ void merge(vector<int>& arr, int left, int mid, int right) {
     int minGallop = 7;
     int countLeft = 0, countRight = 0;
 
+    // core merge logic
     while (i < leftPart.size() && j < rightPart.size()) {
         if (leftPart[i] <= rightPart[j]) {
             arr[k] = leftPart[i];
             i++;
-            countLeft++;
+            countLeft++;    // keeping track of left subarray "wins"
             countRight = 0;
         } else {
             arr[k] = rightPart[j];
             j++;
-            countRight++;
+            countRight++;   // keeping track of right subarray "wins"
             countLeft = 0;
         }
         k++;
-        // if one side wins individual comparisons repeatedly
-        // trigger galloping mode to find the location in the array where x goes
+
+        // one side wins individual comparisons more than min_gallop times
+        // if left run is smaller call gallop to find the index of the right one where x fits
         if (countLeft >= minGallop) {
             int pos = gallop(rightPart[j], leftPart, i);
+            // copy the part of array that was skipped over
             while (i < pos) {
                 arr[k] = leftPart[i];
                 i++;
                 k++;
             }
-            countLeft = 0;
+            countLeft = 0;  // reset counter
+
+        // if right run is smaller call gallop to find the index of the left one where x fits
         } else if (countRight >= minGallop) {
             int pos = gallop(leftPart[i], rightPart, j);
+            // copy the part of array that was skipped over
             while (j < pos) {
                 arr[k] = rightPart[j];
                 j++;
                 k++;
             }
-            countRight = 0;
+            countRight = 0; // reset counter
         }
     }
 
+    // copy over any leftover elements, only 1 will run, the other is already done
     while (i < leftPart.size()) {
         arr[k] = leftPart[i];
         i++;
@@ -131,7 +138,7 @@ void merge(vector<int>& arr, int left, int mid, int right) {
 
 void mergeCollapse(vector<int>& arr, vector<pair<int, int>>& runStack);
 
-// merge top two runs on the stack
+// merge runs at a location on the stack
 void mergeAt(vector<int>& arr, vector<pair<int, int>>& runStack, int i) {
     pair<int, int> run1 = runStack[i];
     pair<int, int> run2 = runStack[i + 1];
@@ -139,6 +146,7 @@ void mergeAt(vector<int>& arr, vector<pair<int, int>>& runStack, int i) {
     runStack[i] = make_pair(run1.first, run2.second);
     runStack.erase(runStack.begin() + i + 1);
 }
+
 // enforces timsort's merge policy
 void mergeCollapse(vector<int>& arr, vector<pair<int, int>>& runStack) {
     while (runStack.size() > 2) {
@@ -167,22 +175,27 @@ void mergeCollapse(vector<int>& arr, vector<pair<int, int>>& runStack) {
         }
     }
 
+    // merge when there are 2 runs left on the stack
     if (runStack.size() == 2 && (runStack[runStack.size() - 2].second - runStack[runStack.size() - 2].first + 1) <= (runStack[runStack.size() - 1].second - runStack[runStack.size() - 1].first + 1)) {
         mergeAt(arr, runStack, runStack.size() - 2);
     }
 }
+
 // split the array into runs, sort each, then merge according to policy
 void timsort(vector<int>& arr) {
+    // initialize variables
     int n = arr.size();
     int minRun = calculateMinRun(n);
     vector<pair<int, int>> runStack;
 
+    // first pass: split into runs and call insertionsort
     int i = 0;
     while (i < n) {
+        // end of current run is either i + minRun (offset) or the end of the list
         int runEnd = min(i + minRun - 1, n - 1);
-        insertionSort(arr, i, runEnd);
-        runStack.push_back(make_pair(i, runEnd));
-        i = runEnd + 1;
+        insertionSort(arr, i, runEnd); 
+        runStack.push_back(make_pair(i, runEnd));   // push the run to the stack
+        i = runEnd + 1;     // update offset
         mergeCollapse(arr, runStack);
     }
     // merge the runs on the stack according to the merge policy until there is 1 run on the stack
