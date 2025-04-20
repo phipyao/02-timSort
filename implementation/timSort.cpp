@@ -48,6 +48,7 @@ void insertionSort(vector<int>& arr, int left, int right) {
     }
 }
 
+// exponential search to find where a given element x belongs in arr 
 int gallop(int x, const vector<int>& arr, int start) {
     int hi = 1;
     int n = arr.size();
@@ -56,7 +57,8 @@ int gallop(int x, const vector<int>& arr, int start) {
     while (start + hi < n && x > arr[start + hi]) {
         hi *= 2;
     }
-    // binary search between the second to last element checked and the element selected to pinpoint where x belongs
+    // binary search between the second to last element checked and the element selected to pinpoint
+    // where x belongs
     int lo = hi / 2;
     hi = min(start + hi, n);
     while (lo < hi) {
@@ -69,8 +71,9 @@ int gallop(int x, const vector<int>& arr, int start) {
     }
     return lo; // x's sorted position
 }
+
 // combine two sorted subarrays [left,mid] and [mid+1,right]
-// track consecutive wins to trigger galloping mode to reduce the number of individual comparisons.
+// track consecutive wins to trigger galloping mode to reduce the number of individual comparisons
 void merge(vector<int>& arr, int left, int mid, int right) {
     vector<int> leftPart(arr.begin() + left, arr.begin() + mid + 1);
     vector<int> rightPart(arr.begin() + mid + 1, arr.begin() + right + 1);
@@ -92,7 +95,8 @@ void merge(vector<int>& arr, int left, int mid, int right) {
             countLeft = 0;
         }
         k++;
-        // if one side wins individual comparisons repeatedly, trigger galloping mode
+        // if one side wins individual comparisons repeatedly
+        // trigger galloping mode to find the location in the array where x goes
         if (countLeft >= minGallop) {
             int pos = gallop(rightPart[j], leftPart, i);
             while (i < pos) {

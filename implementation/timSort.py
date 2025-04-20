@@ -1,25 +1,28 @@
+# returns a number equal to or slighly less than a power of 2 between 32 and 64
 def calculate_min_run(n):
     r = 0
     while n >= 32:
-        r |= n & 1
-        n >>= 1
+        r |= n & 1  # record if a bit will be shifted off
+        n >>= 1     # divide n by 2
     return n + r
 
 def insertion_sort(arr, left, right):
+    # detect for descending runs
     if left < right and arr[left] > arr[left+1]:
         is_desc = True
         for k in range(left, right):
             if arr[k] < arr[k+1]:
-                is_desc = False
+                is_desc = False # no longer a descending run, continue insertion sort as normal
                 break
         if is_desc:
+            # reverse in-place
             i, j = left, right
             while i < j:
                 arr[i], arr[j] = arr[j], arr[i]
                 i += 1
                 j -= 1
-            return
-
+            return # sorted run
+    # if hte runs is not descending, use standard insertion sort implementation
     for i in range(left + 1, right + 1):
         temp = arr[i]
         j = i - 1
@@ -28,11 +31,16 @@ def insertion_sort(arr, left, right):
             j -= 1
         arr[j + 1] = temp
 
+# exponential search to find where a given element x belongs in arr
 def gallop(x, arr, start):
     hi = 1
     n = len(arr)
+    # multilpy hi by 2 until its idx is >= x, the current element in the "winning" or greater list,
+    # or the end of the list is reached
     while start + hi < n and x > arr[start + hi]:
         hi *= 2
+    # binary search between the second to last element checked and the element selected to pinpoint
+    # where x belongs
     lo = hi // 2
     hi = min(start + hi, n)
     while lo < hi:
@@ -41,8 +49,10 @@ def gallop(x, arr, start):
             lo = mid + 1
         else:
             hi = mid
-    return lo
+    return lo # x's sorted position
 
+#  combine two sorted subarrays [left,mid] and [mid+1,right]
+#  track consecutive wins to trigger galloping mode to reduce the number of individual comparisons
 def merge(arr, left, mid, right):
     left_part = arr[left:mid + 1]
     right_part = arr[mid + 1:right + 1]
@@ -64,7 +74,8 @@ def merge(arr, left, mid, right):
             count_right += 1
             count_left = 0
         k += 1
-
+        # if one side wins individual comparisons repeatedly
+        # trigger galloping mode to find the location in the array where x goes
         if count_left >= min_gallop:
             pos = gallop(right_part[j], left_part, i)
             while i < pos:
