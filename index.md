@@ -66,20 +66,20 @@ Go [back to home page](../../index.html)
 		- Case 9: edge case - 20 ships along y = 0
         - [Case 9 input](./programmingChallenge/io/test.in.9)
 		- [Case 9 output](./programmingChallenge/io/test.out.9)
-		
-		- Case 10: runtime: 1,000 sorted ships and 10 queries
+
+		- Case 10: runtime: 1,000 random ships and 10 queries
         - [Case 10 input](./programmingChallenge/io/test.in.10)
 		- [Case 10 output](./programmingChallenge/io/test.out.10)
-		- Case 11: runtime: 1,000 sorted ships and 10 queries
+		- Case 11: runtime: 1,000 random ships and 10 queries
         - [Case 11 input](./programmingChallenge/io/test.in.11)
 		- [Case 11 output](./programmingChallenge/io/test.out.11)
-		- Case 12: runtime: 10,000 sorted ships and 10 queries
+		- Case 12: runtime: 10,000 random ships and 10 queries
         - [Case 12 input](./programmingChallenge/io/test.in.12)
 		- [Case 12 output](./programmingChallenge/io/test.out.12)
-		- Case 13: runtime: 50,000 sorted ships and 10 queries
+		- Case 13: runtime: 50,000 random ships and 10 queries
         - [Case 13 input](./programmingChallenge/io/test.in.13)
 		- [Case 13 output](./programmingChallenge/io/test.out.13)
-		- Case 14: runtime: 150,000 sorted ships and 10 queries
+		- Case 14: runtime: 150,000 random ships and 10 queries
         - [Case 14 input](./programmingChallenge/io/test.in.14)
 		- [Case 14 output](./programmingChallenge/io/test.out.14)
 		- Case 15: runtime: 150,000 reverse sorted ships and 10 queries
