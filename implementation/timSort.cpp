@@ -20,7 +20,8 @@ void insertionSort(vector<int>& arr, int left, int right) {
     if (left < right && arr[left] > arr[left + 1]) {
         bool isDesc = true;
         for (int k = left; k < right; k++) {
-            if (arr[k] < arr[k + 1]) { // found an ascending pair so run is not descending
+            if (arr[k] < arr[k + 1]) { 
+                // found an increasing segment so run is not descending
                 isDesc = false;
                 break;
             }
@@ -36,7 +37,7 @@ void insertionSort(vector<int>& arr, int left, int right) {
             return; // sorted run
         }
     }
-    // if run is not descending, use standard insertionsort implementation
+    // if run is not descending use standard insertionsort implementation
     for (int i = left + 1; i <= right; i++) {
         int temp = arr[i];
         int j = i - 1;
@@ -48,12 +49,12 @@ void insertionSort(vector<int>& arr, int left, int right) {
     }
 }
 
-// exponential search to find where a given element x belongs in arr 
+// gallop method used to quickly find where x belongs in a sorted array 
 int gallop(int x, const vector<int>& arr, int start) {
     int hi = 1;
     int n = arr.size();
-    // multilpy hi by 2 until its idx is >= x, the current element in the "winning" or greater list,
-    // or the end of the list is reached
+    // exponential search: multilpy hi by 2 until its idx is >= x
+    // the current element in the "winning" or greater list or the end of the list is reached
     while (start + hi < n && x > arr[start + hi]) {
         hi *= 2;
     }
@@ -140,9 +141,11 @@ void mergeCollapse(vector<int>& arr, vector<pair<int, int>>& runStack);
 
 // merge runs at a location on the stack
 void mergeAt(vector<int>& arr, vector<pair<int, int>>& runStack, int i) {
+    // copy subsections
     pair<int, int> run1 = runStack[i];
     pair<int, int> run2 = runStack[i + 1];
     merge(arr, run1.first, run1.second, run2.second);
+    // update stack
     runStack[i] = make_pair(run1.first, run2.second);
     runStack.erase(runStack.begin() + i + 1);
 }
@@ -151,7 +154,7 @@ void mergeAt(vector<int>& arr, vector<pair<int, int>>& runStack, int i) {
 void mergeCollapse(vector<int>& arr, vector<pair<int, int>>& runStack) {
     while (runStack.size() > 2) {
         // get the length of the first three runs on the stack
-        // C is at the top of the stack, A is closest to the bottom.
+        // C is at the top of the stack, A is closest to the bottom
         pair<int, int> A = runStack[runStack.size() - 3];
         pair<int, int> B = runStack[runStack.size() - 2];
         pair<int, int> C = runStack[runStack.size() - 1];
@@ -188,7 +191,7 @@ void timsort(vector<int>& arr) {
     int minRun = calculateMinRun(n);
     vector<pair<int, int>> runStack;
 
-    // first pass: split into runs and call insertionsort
+    // first pass: split into runs and call the augmented insertionsort
     int i = 0;
     while (i < n) {
         // end of current run is either i + minRun (offset) or the end of the list

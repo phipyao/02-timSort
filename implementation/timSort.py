@@ -158,9 +158,11 @@ def merge_collapse(arr, run_stack):
 
 # merge runs at a location on the stack
 def merge_at(arr, run_stack, i):
+    # copy subsections
     start1, end1 = run_stack[i]
     start2, end2 = run_stack[i + 1]
     merge(arr, start1, end1, end2)
+    # update stack
     run_stack[i] = (start1, end2)
     del run_stack[i + 1]
 
