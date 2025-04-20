@@ -54,19 +54,19 @@ Go [back to home page](../../index.html)
 		- Case 5: edge case - no ships in query
         - [Case 5 input](./programmingChallenge/io/test.in.5)
 		- [Case 5 output](./programmingChallenge/io/test.out.5)
-		
-		- Case 6: edge case - ships provided in sorted polar order
+		- Case 6: edge case - 20 ships provided in sorted polar order
         - [Case 6 input](./programmingChallenge/io/test.in.6)
 		- [Case 6 output](./programmingChallenge/io/test.out.6)
-		- Case 7: edge case - ships provided in reverse polar order
+		- Case 7: edge case - 20 ships provided in reverse polar order
         - [Case 7 input](./programmingChallenge/io/test.in.7)
 		- [Case 7 output](./programmingChallenge/io/test.out.7)
-		- Case 8: edge case - every ship along x = 0
+		- Case 8: edge case - 20 ships along x = 0
         - [Case 8 input](./programmingChallenge/io/test.in.8)
 		- [Case 8 output](./programmingChallenge/io/test.out.8)
-		- Case 9: edge case - every ship along y = 0
+		- Case 9: edge case - 20 ships along y = 0
         - [Case 9 input](./programmingChallenge/io/test.in.9)
 		- [Case 9 output](./programmingChallenge/io/test.out.9)
+		
 		- Case 10: runtime: 1,000 sorted ships and 10 queries
         - [Case 10 input](./programmingChallenge/io/test.in.10)
 		- [Case 10 output](./programmingChallenge/io/test.out.10)
