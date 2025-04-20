@@ -43,13 +43,13 @@ def distance_squared(p):
     return x * x + y * y
 
 # Define the file path
-# pypy3 pcSol_python.py < ../io/test.in.16 > ../io/test.out.16
-filename = f"programmingChallenge/io/test.in.{16}"
+# pypy3 pcSol_python.py < ../io/test.in.20 > ../io/test.out.20
+filename = f"programmingChallenge/io/test.in.{20}"
 
 # Write to the file
 with open(filename, "w") as f:
 
-    n = 150000
+    n = 300000
     q = 10
     f.write(f"{n} {q}\n")
     
@@ -66,7 +66,7 @@ with open(filename, "w") as f:
         f.write(f"{points[i][0]} {points[i][1]} {i+1}\n")
 
     for i in range(q):
-        r = random.randint(5, 1500)
+        r = random.randint(5, 150)
         f.write(f"{r}\n")
 
 # Read from the file and print contents

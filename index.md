@@ -87,17 +87,16 @@ Go [back to home page](../../index.html)
 		- Case 16: runtime: 150,000 random ships and 10 queries
         - [Case 16 input](./programmingChallenge/io/test.in.16)
 		- [Case 16 output](./programmingChallenge/io/test.out.16)
-		
 		- Case 17: runtime: 150,000 sorted ships with 150,000 reverse sorted ships and 10 queries
         - [Case 17 input](./programmingChallenge/io/test.in.17)
 		- [Case 17 output](./programmingChallenge/io/test.out.17)
-		- Case 18: runtime: 1,000,000 sorted ships and 100 queries
+		- Case 18: runtime: 300,000 sorted ships and 10 queries
         - [Case 18 input](./programmingChallenge/io/test.in.18)
 		- [Case 18 output](./programmingChallenge/io/test.out.18)
-		- Case 19: runtime: 1,000,000 reverse sorted ships and 100 queries
+		- Case 19: runtime: 300,000 reverse sorted ships and 10 queries
         - [Case 19 input](./programmingChallenge/io/test.in.19)
 		- [Case 19 output](./programmingChallenge/io/test.out.19)
-		- Case 20: runtime: 1,000,000 random ships and 100 queries
+		- Case 20: runtime: 300,000 random ships and 10 queries
         - [Case 20 input](./programmingChallenge/io/test.in.20)
 		- [Case 20 output](./programmingChallenge/io/test.out.20)
 	
