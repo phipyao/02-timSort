@@ -43,26 +43,31 @@ def distance_squared(p):
     return x * x + y * y
 
 # Define the file path
-# python3 pcSol_python.py < ../io/test.in.9 > ../io/test.out.9 && cat ../io/test.out.9
-filename = f"programmingChallenge/io/test.in.{9}"
+# pypy3 pcSol_python.py < ../io/test.in.16 > ../io/test.out.16
+filename = f"programmingChallenge/io/test.in.{16}"
 
 # Write to the file
 with open(filename, "w") as f:
-    points = []
-    for i in range(20):
-        x = random.randint(-20, 20)
-        y = random.randint(-20, 20)
-        points.append((x, 0))
-    
-    f.write("20 1\n")
 
+    n = 150000
+    q = 10
+    f.write(f"{n} {q}\n")
+    
+    points = []
+    for i in range(n):
+        x = random.randint(-1000, 1000)
+        y = random.randint(-1000, 1000)
+        points.append((x, y))
+    
     # points.sort(key=lambda p: (polar_angle(p), distance_squared(p)))
     # points = points[::-1]
 
-    for i in range(20):
+    for i in range(n):
         f.write(f"{points[i][0]} {points[i][1]} {i+1}\n")
 
-    f.write("40")
+    for i in range(q):
+        r = random.randint(5, 1500)
+        f.write(f"{r}\n")
 
 # Read from the file and print contents
 with open(filename, "r") as f:
